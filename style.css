@@ -450,7 +450,6 @@ body.single-toggle .drop:nth-child(10) {
   /* 4) End */
 
   /* 5) Snowfall Animation */
-/* Snowfall Grid Size and Density */
   .snow, .snow:before, .snow:after {
     position: absolute;
     top: -600px; /* Matches the grid size */
@@ -468,36 +467,28 @@ body.single-toggle .drop:nth-child(10) {
   }
 
   .snow:after {
-    margin-left: -200px; /* Adjusted offset */
+    margin-left: -200px;
     opacity: 0.4;
-    animation-duration: 8s; /* Slower speed for "after" */
+    animation-duration: 8s;
     animation-direction: reverse;
     filter: blur(3px);
   }
 
   .snow:before {
-    margin-left: -300px; /* Adjusted offset */
+    margin-left: -300px;
     opacity: 0.65;
-    animation-duration: 12s; /* Even slower speed for "before" */
+    animation-duration: 12s;
     animation-direction: reverse;
     filter: blur(1.5px);
   }
 
   @keyframes snow {
     to {
-      transform: translateY(600px); /* Matches grid size for a full drop */
+      transform: translateY(600px);
     }
   }
 
 /* 5) End */
-
-
-
-
-
-
-
-
 
 
 
@@ -772,10 +763,6 @@ body.single-toggle .drop:nth-child(10) {
     width: 100%;
     height: 118px;
     text-align: center;
-}
-
-.child-div.div4 .icon1 {
-    filter: invert() blur(0.8px);
 }
 
 .child-div img {
