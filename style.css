@@ -41,7 +41,7 @@ main {
     position: absolute;
     display: none;
     z-index: 1;
-    bottom: 60px;
+    /* bottom: 60px; */
     opacity: 0.5;
 }
 
@@ -52,7 +52,6 @@ body.back-row-toggle .rain.back-row {
 .drop {
     position: absolute;
     z-index: 1;
-    bottom: 100%;
     width: 15px;
     height: 120px;
     pointer-events: none;
@@ -69,7 +68,7 @@ body.back-row-toggle .rain.back-row {
     }
 
     100% {
-        transform: translateY(100vh);
+        transform: translateY(110vh);
     }
 }
 
@@ -91,15 +90,30 @@ body.back-row-toggle .rain.back-row {
     }
 
     75% {
-        opacity: 0;
+        opacity: 1;
     }
 
     100% {
         opacity: 0;
     }
+    110% {
+        opacity: 1;
+    }
+    120% {
+        opacity: 1;
+    }
+    130% {
+        opacity: 1;
+    }
+    140% {
+        opacity: 1;
+    }
+    150% {
+        opacity: 1;
+    }
 }
 
-.splat {
+/* .splat {
     width: 15px;
     height: 10px;
     border-top: 2px dotted rgba(255, 255, 255, 0.5);
@@ -107,7 +121,7 @@ body.back-row-toggle .rain.back-row {
     opacity: 1;
     transform: scale(0);
     animation: splat 0.5s linear infinite;
-}
+} */
 
 body.splat-toggle .splat {
     display: block;
@@ -249,7 +263,7 @@ body.single-toggle .drop:nth-child(10) {
     right: 0;
   }
 
-  .stars {
+  /* .stars {
     background: black url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat;
     position: absolute;
     top: 0;
@@ -258,7 +272,7 @@ body.single-toggle .drop:nth-child(10) {
     right: 0;
     display: block;
     z-index: 0;
-  }
+  } */
 
   .clouds {
     width: 10000px;
@@ -380,6 +394,58 @@ body.single-toggle .drop:nth-child(10) {
     animation-duration: 12s, 7000ms;
     animation-delay: 0ms, 1000ms;
   }
+  .firefly:nth-child(3) {
+    animation-name: move1;
+  }
+
+  .firefly:nth-child(4) {
+    animation-name: move2;
+  }
+
+  /* Randomize Durations */
+  .firefly:nth-child(3)::before {
+    animation-duration: 10s;
+  }
+
+  .firefly:nth-child(3)::after {
+    animation-duration: 10s, 6000ms;
+    animation-delay: 0ms, 500ms;
+  }
+
+  .firefly:nth-child(4)::before {
+    animation-duration: 12s;
+  }
+
+  .firefly:nth-child(4)::after {
+    animation-duration: 12s, 7000ms;
+    animation-delay: 0ms, 1000ms;
+  }
+  .firefly:nth-child(5) {
+    animation-name: move1;
+  }
+
+  .firefly:nth-child(6) {
+    animation-name: move2;
+  }
+
+  /* Randomize Durations */
+  .firefly:nth-child(5)::before {
+    animation-duration: 10s;
+  }
+
+  .firefly:nth-child(5)::after {
+    animation-duration: 10s, 6000ms;
+    animation-delay: 0ms, 500ms;
+  }
+
+  .firefly:nth-child(6)::before {
+    animation-duration: 12s;
+  }
+
+  .firefly:nth-child(6)::after {
+    animation-duration: 12s, 7000ms;
+    animation-delay: 0ms, 1000ms;
+  }
 
   /* 4) End */
 
@@ -444,6 +510,7 @@ body.single-toggle .drop:nth-child(10) {
 .background-animation{
     background: url(./images/default-background.jpg);
     background-size: cover;
+    background-position: center;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -453,8 +520,8 @@ body.single-toggle .drop:nth-child(10) {
 }
 /* zindex 2 */
 .main-container {
-    width: 65%;
-    min-height: 70%;
+    width: 65vw;
+    min-height: 70vh;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -595,7 +662,8 @@ body.single-toggle .drop:nth-child(10) {
 
 .container-top .icon .weather-icon {
     filter: drop-shadow(rgba(0, 0, 0, 0.486) -10px 1px 10px);
-    height: 280px;
+    height: 16vw;
+    transition: all 0.1s;
 }
 
 .container-top .input-field {
@@ -650,6 +718,7 @@ body.single-toggle .drop:nth-child(10) {
     justify-content: center;
     font-size: 5rem;
     margin-left: -32px;
+    transition: all 0.1s;
 }
 
 .details .temp img {
@@ -657,7 +726,7 @@ body.single-toggle .drop:nth-child(10) {
     transform: rotate(-90deg);
 }
 
-
+/* zindex 3 */
 .container-bottom {
     width: 100%;
     padding: .8rem;
@@ -682,12 +751,12 @@ body.single-toggle .drop:nth-child(10) {
 }
 
 .child-div {
-    height: 50%;
+    height: 100%;
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     place-content: center;
     gap: 1rem;
     transition: all 0.1s;
@@ -699,9 +768,6 @@ body.single-toggle .drop:nth-child(10) {
     border: 1px solid rgba(0, 0, 0, 0);
     background-color: rgba(0, 0, 0, 0.2);
 }
-/* .child-div.div1 .icon1 .weather-icon{
-    display: none;
-} */
 .child-div .icon1 {
     width: 100%;
     height: 118px;
@@ -715,6 +781,7 @@ body.single-toggle .drop:nth-child(10) {
 .child-div img {
     width: 50%;
     object-fit: contain;
+    transition: all 0.1s;
 }
 
 .child-div .unit {
@@ -726,6 +793,7 @@ body.single-toggle .drop:nth-child(10) {
     background: linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%);
     -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      transition: all 0.1s;
 }
 .child-div .unit .title{
     display: flex;
