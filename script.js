@@ -30,25 +30,6 @@ var makeItRain = function () {
     $('.rain.back-row').append(backDrops);
 }
 
-// $('.splat-toggle.toggle').on('click', function () {
-//     $('body').toggleClass('splat-toggle');
-//     $('.splat-toggle.toggle').toggleClass('active');
-//     makeItRain();
-// });
-
-// $('.back-row-toggle.toggle').on('click', function () {
-//     $('body').toggleClass('back-row-toggle');
-//     $('.back-row-toggle.toggle').toggleClass('active');
-//     makeItRain();
-// });
-
-//   $('.single-toggle.toggle').on('click', function() {
-//     $('body').toggleClass('single-toggle');
-//     $('.single-toggle.toggle').toggleClass('active');
-//     makeItRain();
-//   });
-
-makeItRain();
 
 
 
@@ -389,6 +370,7 @@ function checkWeatherCondition(data) {
                     <div class="rain front-row"></div>
                     <div class="rain back-row"></div>
                 </div>`;
+                makeItRain();
         } else {
             weatherIcon2.src = `./images/thunder-cloud.png`;
             backgroundImage.style.backgroundImage = `url(./images/night/night.png)`;
@@ -398,7 +380,7 @@ function checkWeatherCondition(data) {
                     <canvas id="canvas2"></canvas>
                     <canvas id="canvas3"></canvas>
                 </div>`;
-            makeItRainHeavy(); // Function assumed to be defined elsewhere
+            makeItRainHeavy();
         }
     }
     else if (mainCondition === "snow") {
@@ -428,7 +410,8 @@ function checkWeatherCondition(data) {
 
 
 
-    } else if (mainCondition === "clear") {
+    
+    else if (mainCondition === "clear") {
         if (currentTime > data.sys.sunrise) {
             backgroundImage.style.backgroundImage = `url(./images/day.sunny-day.jpg)`;
             if (data.clouds.all > 0) {
