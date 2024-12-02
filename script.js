@@ -1,4 +1,7 @@
 // f9cdce05e49602cacc7433be245bc6f0
+document.addEventListener("contextmenu", function (event) {
+    event.preventDefault(); // Prevents the right-click menu from showing
+  });
 // BACKGROUND WEATHER ANIMATIONS
 // 1) Light Raining no Lightning
 
