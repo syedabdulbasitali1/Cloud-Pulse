@@ -323,11 +323,17 @@ function search() {
 
 
     function checkWeatherCondition(data) {
+
+
         // Query selectors for dynamic updates
+        let currentTime = Math.floor(Date.now() / 1000);
+        let sunIcon = document.querySelector(".container-bottom .div5 .icon1 img");
         let backgroundImage = document.querySelector(".background-animation");
         let weatherIcon = document.querySelector(".basic .weather-icon");
         let tempIcon = document.querySelector(".details .temp img");
         let weatherIcon2 = document.querySelector(".container-bottom .div1 .icon1 .weather-icon");
+        const mainCondition = data.weather[0].main.toLowerCase();
+        const description = data.weather[0].description.toLowerCase();
 
         // Update common details
         document.querySelector(".details .temp .temperature").innerText = `${data.main.temp}°C`;
@@ -341,12 +347,21 @@ function search() {
         document.querySelector(".div5 .unit .values .val1").innerText = new Date(data.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         document.querySelector(".div5 .unit .values .val2").innerText = new Date(data.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        let currentTime = Math.floor(Date.now() / 1000);
-        // const mainCondition = data.weather[0].main.toLowerCase();
-        const mainCondition = "clear";
-        // const description = data.weather[0].description.toLowerCase();
-        const description = "clear";
 
+        function changeIcon() {
+            // Calculate 1.5 hours (in seconds)
+            const oneAndHalfHours = 1.5 * 60 * 60;
+            if (currentTime > data.sys.sunrise && currentTime < (data.sys.sunset - oneAndHalfHours)) {
+                sunIcon.src = `./images/sunrise.png`;
+            }
+            else if (currentTime >= (data.sys.sunset - oneAndHalfHours) && currentTime <= data.sys.sunset) {
+                sunIcon.src = `./images/sunset1.png`;
+            }
+            else if (currentTime > data.sys.sunset) {
+                sunIcon.src = `./images/sunset.png`;
+            }
+        }
+        changeIcon();
         // Update temperature-based icons
         if (data.main.temp < 5) {
             tempIcon.src = `./images/thermometer0.png`;
@@ -382,27 +397,18 @@ function search() {
                 makeItRainHeavy();
             }
         } else if (mainCondition === "snow") {
-            weatherIcon.src = `./images/snowfall-cloud.png`;
+            backgroundImage.style.backgroundImage = currentTime > data.sys.sunrise
+                ? `url('./images/day/light-snowfall.jpg')`
+                : `url('./images/night/night-snowfall.jpg')`;
+            weatherIcon.src = `./images/snowfall-cloud1.png`;
+            weatherIcon2.src = currentTime > data.sys.sunrise
+                ? `./images/light-cloud-day.png`
+                : `./images/moon-cloud.png`;
+
             backgroundImage.innerHTML = `<div class="snow"></div>`;
 
             if (description.includes("light")) {
-                // Light snowfall during the day/night
-                backgroundImage.style.backgroundImage = currentTime > data.sys.sunrise
-                    ? `url('./images/day/light-snowfall.jpg')`
-                    : `url('./images/night/night-light-snowfall.jpg')`;
-                document.querySelector(".snow").classList.add("light-snow");
-            } else if (description.includes("heavy")) {
-                // Heavy snowfall during the day/night
-                backgroundImage.style.backgroundImage = currentTime > data.sys.sunrise
-                    ? `url('./images/day/heavy-snowfall.jpg')`
-                    : `url('./images/night/night-heavy-snowfall.jpg')`;
-                document.querySelector(".snow").classList.add("heavy-snow");
-            } else {
-                // Snow with no active snowfall (e.g., icy conditions)
-                backgroundImage.style.backgroundImage = currentTime > data.sys.sunrise
-                    ? `url('./images/day/snowy-landscape.jpg')`
-                    : `url('./images/night/snowy-night.jpg')`;
-                document.querySelector(".snow").style.display = "none";
+                weatherIcon.src = `./images/snowfall-cloud.png`;
             }
         } else if (mainCondition === "clear") {
             if (data.clouds.all > 0) {
