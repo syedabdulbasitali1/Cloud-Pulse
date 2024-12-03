@@ -572,7 +572,7 @@ header h1 {
 }
 
 .search .city-name {
-    background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
+    background: linear-gradient(220.55deg, #FFDC99 0%, #FF62C0 100%);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     padding-left: 24px;

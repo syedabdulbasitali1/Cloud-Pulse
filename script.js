@@ -332,10 +332,10 @@ function search() {
         let weatherIcon = document.querySelector(".basic .weather-icon");
         let tempIcon = document.querySelector(".details .temp img");
         let weatherIcon2 = document.querySelector(".container-bottom .div1 .icon1 .weather-icon");
-        // const mainCondition = data.weather[0].main.toLowerCase();
-        const mainCondition = "thunderstorm";
-        // const description = data.weather[0].description.toLowerCase();
-        const description = "thunderstorm";
+        const mainCondition = data.weather[0].main.toLowerCase();
+        // const mainCondition = "haze";
+        const description = data.weather[0].description.toLowerCase();
+        // const description = "havy rain";
 
         // Update common details
         document.querySelector(".details .temp .temperature").innerText = `${data.main.temp}°C`;
@@ -375,6 +375,7 @@ function search() {
         } else {
             tempIcon.src = `./images/thermometer80.png`;
         }
+
         // Weather condition handling
         if (mainCondition === "rain") {
             sunIcon.src = `./images/sunset.png`;
@@ -396,14 +397,18 @@ function search() {
                 </div>`;
                 makeItRain();
             } else {
-                weatherIcon2.src = `./images/thunder-cloud.png`;
                 backgroundImage.style.backgroundImage = `url(./images/night/thunderstorm.jpg)`;
-                backgroundImage.innerHTML = `
-                <div class="thunder">
-                    <canvas id="canvas1"></canvas>
-                    <canvas id="canvas2"></canvas>
-                    <canvas id="canvas3"></canvas>
-                </div>`;
+                title.style.backgroundImage = 'linear-gradient(220.55deg, #FFF6EB 0%, #DFD1C5 100%)'
+                searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #FFF6EB 0%, #DFD1C5 100%)'
+                weatherIcon.src = `./images/thunder-cloud.png`;
+                weatherIcon2.src = `./images/snowfall-cloud2.png`;
+                sunIcon.src = `./images/sunset.png`;
+                backgroundImage.innerHTML =
+                    `<div class="thunder">
+                <canvas id="canvas1"></canvas>
+                <canvas id="canvas2"></canvas>
+                <canvas id="canvas3"></canvas>
+            </div>`;
                 makeItRainHeavy();
             }
         } else if (mainCondition === "snow") {
@@ -489,6 +494,8 @@ function search() {
             </div>`;
             makeItRainHeavy();
         } else if (mainCondition === "mist" || mainCondition === "haze" || mainCondition === "fog") {
+            title.style.backgroundImage = 'linear-gradient(220.55deg, #00E0EE 0%, #AD00FE 100%)'
+            searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #00E0EE 0%, #AD00FE 100%)'
             backgroundImage.innerHTML = ``;
             weatherIcon.src = `./images/haze.png`;
             backgroundImage.style.backgroundImage = currentTime > sunriseTime ? `url(./images/day/clear.jpg)` : `url(./images/night/night6.jpg)`;
