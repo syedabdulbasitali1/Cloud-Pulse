@@ -277,7 +277,6 @@ card.addEventListener("mousemove", (event) => {
 });
 card.addEventListener("mouseleave", () => {
     card.style = null;
-    // glass.style.opacity = 0;
 });
 
 
@@ -324,16 +323,19 @@ function search() {
 
     function checkWeatherCondition(data) {
 
-
         // Query selectors for dynamic updates
         let currentTime = Math.floor(Date.now() / 1000);
+        let title = document.querySelector("header h1");
+        let searchTitle = document.querySelector(".search .city-name");
         let sunIcon = document.querySelector(".container-bottom .div5 .icon1 img");
         let backgroundImage = document.querySelector(".background-animation");
         let weatherIcon = document.querySelector(".basic .weather-icon");
         let tempIcon = document.querySelector(".details .temp img");
         let weatherIcon2 = document.querySelector(".container-bottom .div1 .icon1 .weather-icon");
-        const mainCondition = data.weather[0].main.toLowerCase();
-        const description = data.weather[0].description.toLowerCase();
+        // const mainCondition = data.weather[0].main.toLowerCase();
+        const mainCondition = "thunderstorm";
+        // const description = data.weather[0].description.toLowerCase();
+        const description = "thunderstorm";
 
         // Update common details
         document.querySelector(".details .temp .temperature").innerText = `${data.main.temp}°C`;
@@ -344,20 +346,21 @@ function search() {
         document.querySelector(".div3 .unit .values .val1").innerText = `${data.wind.speed} m/s`;
         document.querySelector(".div3 .unit .values .val2").innerText = `${data.wind.deg}°`;
         document.querySelector(".div4 .unit .values .value").innerText = `${data.main.pressure} hPa`;
-        document.querySelector(".div5 .unit .values .val1").innerText = new Date(data.sys.sunrise * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        document.querySelector(".div5 .unit .values .val2").innerText = new Date(data.sys.sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const sunriseTime = moment.unix(data.sys.sunrise).utcOffset(data.timezone / 60).format('HH:mm');
+        const sunsetTime = moment.unix(data.sys.sunset).utcOffset(data.timezone / 60).format('HH:mm');
+        document.querySelector(".div5 .unit .values .val1").innerText = sunriseTime;
+        document.querySelector(".div5 .unit .values .val2").innerText = sunsetTime;
 
 
         function changeIcon() {
-            // Calculate 1.5 hours (in seconds)
             const oneAndHalfHours = 1.5 * 60 * 60;
-            if (currentTime > data.sys.sunrise && currentTime < (data.sys.sunset - oneAndHalfHours)) {
+            if (currentTime > data.sys.sunrise) {
                 sunIcon.src = `./images/sunrise.png`;
             }
-            else if (currentTime >= (data.sys.sunset - oneAndHalfHours) && currentTime <= data.sys.sunset) {
+            else if (currentTime == data.sys.sunset) {
                 sunIcon.src = `./images/sunset1.png`;
             }
-            else if (currentTime > data.sys.sunset) {
+            else if (currentTime < data.sys.sunset) {
                 sunIcon.src = `./images/sunset.png`;
             }
         }
@@ -374,10 +377,17 @@ function search() {
         }
         // Weather condition handling
         if (mainCondition === "rain") {
+            sunIcon.src = `./images/sunset.png`;
+            title.style.backgroundImage = 'linear-gradient(220.55deg, #8A88FB 0%, #D079EE 100%)'
+            searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #8A88FB 0%, #D079EE 100%)'
+            const units = document.querySelectorAll(".child-div .unit");
+            units.forEach(unit => {
+                unit.style.backgroundImage = `linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%)`;
+            });
             weatherIcon.src = `./images/raining-cloud.png`;
-            weatherIcon2.src = `./images/raining-cloud.png`;
-
             if (description.includes("light") || description.includes("moderate")) {
+
+                weatherIcon2.src = `./images/happy-cloud.png`;
                 backgroundImage.style.backgroundImage = `url(./images/night/night3.png)`;
                 backgroundImage.innerHTML = `
                 <div class="back-row-toggle splat-toggle">
@@ -397,22 +407,28 @@ function search() {
                 makeItRainHeavy();
             }
         } else if (mainCondition === "snow") {
-            backgroundImage.style.backgroundImage = currentTime > data.sys.sunrise
-                ? `url('./images/day/light-snowfall.jpg')`
-                : `url('./images/night/night-snowfall.jpg')`;
+            title.style.backgroundImage = 'linear-gradient(220.55deg, #5EE2FF 0%, #00576A 100%)';
+            searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #5EE2FF 0%, #00576A 100%)';
+            backgroundImage.style.backgroundImage = `url(./images/day/light-snowfall.jpg)`;
             weatherIcon.src = `./images/snowfall-cloud1.png`;
-            weatherIcon2.src = currentTime > data.sys.sunrise
-                ? `./images/light-cloud-day.png`
-                : `./images/moon-cloud.png`;
-
+            weatherIcon2.src = `./images/snowfall-cloud2.png`;
             backgroundImage.innerHTML = `<div class="snow"></div>`;
+            const units = document.querySelectorAll(".child-div .unit");
+            units.forEach(unit => {
+                unit.style.backgroundImage = `linear-gradient(220.55deg, #24CFC5 0%, #001C63 100%)`;
+            });
 
-            if (description.includes("light")) {
-                weatherIcon.src = `./images/snowfall-cloud.png`;
-            }
         } else if (mainCondition === "clear") {
-            if (data.clouds.all > 0) {
+            backgroundImage.innerHTML = ``;
+            if (currentTime > sunriseTime) {
+                title.style.backgroundImage = 'linear-gradient(220.55deg, #FFE70B 0%, #27B643 100%)'
+                searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #FFE70B 0%, #27B643 100%)'
+                const units = document.querySelectorAll(".child-div .unit");
+                units.forEach(unit => {
+                    unit.style.backgroundImage = `linear-gradient(220.55deg, #565656 0%, #181818 100%)`;
+                });
                 backgroundImage.style.backgroundImage = `url(./images/day/clear.jpg)`;
+                backgroundImage.innerHTML = "";
                 if (data.clouds.all > 0) {
                     weatherIcon.src = `./images/sunny-cloud.png`;
                     weatherIcon2.src = `./images/light-cloud-day.png`;
@@ -421,6 +437,8 @@ function search() {
                     document.querySelector(".container-top .basic .icon").innerHTML = `<div class="sunny"></div>`;
                 }
             } else {
+                title.style.backgroundImage = `linear-gradient(220.55deg, #C5EDF5 0%, #4A879A 100%)`;
+                searchTitle.style.backgroundImage = `linear-gradient(220.55deg, #C5EDF5 0%, #4A879A 100%)`;
                 document.querySelector(".main-container").style.backgroundColor = `rgba(255, 255, 255, 0.1)`;
                 backgroundImage.style.backgroundImage = `url(./images/night/night3.png)`;
                 weatherIcon.src = `./images/half-moon-cloud.png`;
@@ -443,30 +461,51 @@ function search() {
                 <div class="firefly"></div>`;
             }
         } else if (mainCondition === "clouds") {
+            title.style.backgroundImage = 'linear-gradient(220.55deg, #3793FF 0%, #0017E4 100%)'
+            searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #3793FF 0%, #0017E4 100%)'
+            backgroundImage.innerHTML = ``;
+            // backgroundImage.innerHTML = `<div class = "clouds"></div>`;
             weatherIcon.src = `./images/cloud.png`;
+            weatherIcon.style.padding = `2.5rem`;
             weatherIcon2.src = currentTime > data.sys.sunrise ? `./images/light-cloud-day.png` : `./images/moon-cloud.png`;
+            backgroundImage.style.backgroundImage = `url(./images/day/cloud.jpg)`;
+
+            const units = document.querySelectorAll(".child-div .unit");
+            units.forEach(unit => {
+                unit.style.backgroundImage = `linear-gradient(220.55deg, #565656 0%, #181818 100%)`;
+            });
         } else if (mainCondition === "thunderstorm") {
             backgroundImage.style.backgroundImage = `url(./images/night/thunderstorm.jpg)`;
-            weatherIcon.src = `./images/thunderstorm.png`;
-            backgroundImage.innerHTML = `
-            <div class="thunder">
+            title.style.backgroundImage = 'linear-gradient(220.55deg, #FFF6EB 0%, #DFD1C5 100%)'
+            searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #FFF6EB 0%, #DFD1C5 100%)'
+            weatherIcon.src = `./images/thunder-cloud.png`;
+            weatherIcon2.src = `./images/snowfall-cloud2.png`;
+            sunIcon.src = `./images/sunset.png`;
+            backgroundImage.innerHTML =
+                `<div class="thunder">
                 <canvas id="canvas1"></canvas>
                 <canvas id="canvas2"></canvas>
                 <canvas id="canvas3"></canvas>
             </div>`;
+            makeItRainHeavy();
         } else if (mainCondition === "mist" || mainCondition === "haze" || mainCondition === "fog") {
+            backgroundImage.innerHTML = ``;
             weatherIcon.src = `./images/haze.png`;
-            backgroundImage.style.backgroundImage = currentTime > data.sys.sunrise ? `url(./images/day/clear.jpg)` : `url(./images/night/night6.jpg)`;
-            weatherIcon2.src = currentTime > data.sys.sunrise ? `./images/light-cloud-day.png` : `./images/moon-cloud.png`;
+            backgroundImage.style.backgroundImage = currentTime > sunriseTime ? `url(./images/day/clear.jpg)` : `url(./images/night/night6.jpg)`;
+            weatherIcon2.src = currentTime > sunriseTime ? `./images/light-cloud-day.png` : `./images/moon-cloud.png`;
         } else {
             console.log("Unusual weather condition detected.");
         }
     }
 
+
+
+    // Fetch the weather data
     function getWeather(cityName) {
         const apiKey = "f9cdce05e49602cacc7433be245bc6f0";
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}`;
 
+        // Fetch the weather data
         axios.get(url)
             .then((response) => {
                 // Check if the response is successful
@@ -516,20 +555,17 @@ function search() {
             searchBar.style.display = "block";
             input.style.display = "none";
             if (input.value.trim() !== "") {
-                const searchValue = input.value; // Get the current input value
-                searchBar.innerText = searchValue; // Display the input value
-                console.log("Search Value:", searchValue); // Log updated value
+                const searchValue = input.value;
+                searchBar.innerText = searchValue;
+                console.log("Search Value:", searchValue);
 
                 // Call the API to get weather details
                 getWeather(searchValue);
-
             }
             input.value = ""; // Clear the input field for new entries
         }
 
-
         isHandlingInput = false;
-
     }
 }
 

@@ -285,7 +285,6 @@ body.single-toggle .drop:nth-child(10) {
     bottom: 0;
     z-index: 1;
     animation: move-background 150s linear infinite;
-    display: none;
   }
 
   .night-anime .moon {
@@ -497,8 +496,10 @@ body.single-toggle .drop:nth-child(10) {
 
 
 
-/* zindex -10 */
-.background-animation{
+/* zindex 2 */
+
+/* z-index -10 */
+.background-animation {
     background: url(./images/default-background.jpg);
     background-size: cover;
     background-position: center;
@@ -508,8 +509,25 @@ body.single-toggle .drop:nth-child(10) {
     top: 0;
     left: 0;
     z-index: -10;
+    transition: background 1s ease-in-out; /* Added smooth background transition */
 }
-/* zindex 2 */
+
+header {
+    padding: 1rem 3rem;
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    left: 0;
+    text-align: center; /* Simplified alignment */
+}
+
+header h1 {
+    font-size: 4rem;
+    background: linear-gradient(220.55deg, #FFDC99 0%, #FF62C0 100%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+}
+
 .main-container {
     width: 65vw;
     min-height: 70vh;
@@ -520,14 +538,11 @@ body.single-toggle .drop:nth-child(10) {
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.1);
     padding: 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.3), 5px 5px 10px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
     box-shadow: inset 5px 4px 8px rgba(255, 255, 255, 0.1),
         inset 0 -4px 8px rgba(0, 0, 0, 0.3),
         0 8px 20px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
-    border: none;
 }
 
 .container-top {
@@ -557,7 +572,6 @@ body.single-toggle .drop:nth-child(10) {
 }
 
 .search .city-name {
-    /* color: rgba(0, 0, 0, 0.607); */
     background: linear-gradient(220.55deg, #565656 0%, #181818 100%);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -654,9 +668,8 @@ body.single-toggle .drop:nth-child(10) {
 .container-top .icon .weather-icon {
     filter: drop-shadow(rgba(0, 0, 0, 0.486) -10px 1px 10px);
     height: 16vw;
-    transition: all 0.1s;
+    transition: transform 0.5s ease, filter 0.5s ease;
 }
-
 .container-top .input-field {
     height: 50px;
     width: 350px;
@@ -763,6 +776,9 @@ body.single-toggle .drop:nth-child(10) {
     width: 100%;
     height: 118px;
     text-align: center;
+}
+.div4 .icon1 img{
+    filter: invert();
 }
 
 .child-div img {
