@@ -325,17 +325,16 @@ function search() {
 
         // Query selectors for dynamic updates
         let currentTime = Math.floor(Date.now() / 1000);
+        let backgroundImage = document.querySelector(".background-animation");
         let title = document.querySelector("header h1");
         let searchTitle = document.querySelector(".search .city-name");
-        let sunIcon = document.querySelector(".container-bottom .div5 .icon1 img");
-        let backgroundImage = document.querySelector(".background-animation");
         let weatherIcon = document.querySelector(".basic .weather-icon");
         let tempIcon = document.querySelector(".details .temp img");
+        let units = document.querySelectorAll(".child-div .unit");
         let weatherIcon2 = document.querySelector(".container-bottom .div1 .icon1 .weather-icon");
+        let sunIcon = document.querySelector(".container-bottom .div5 .icon1 img");
         const mainCondition = data.weather[0].main.toLowerCase();
-        // const mainCondition = "haze";
         const description = data.weather[0].description.toLowerCase();
-        // const description = "havy rain";
 
         // Update common details
         document.querySelector(".details .temp .temperature").innerText = `${data.main.temp}°C`;
@@ -351,20 +350,6 @@ function search() {
         document.querySelector(".div5 .unit .values .val1").innerText = sunriseTime;
         document.querySelector(".div5 .unit .values .val2").innerText = sunsetTime;
 
-
-        function changeIcon() {
-            const oneAndHalfHours = 1.5 * 60 * 60;
-            if (currentTime > data.sys.sunrise) {
-                sunIcon.src = `./images/sunrise.png`;
-            }
-            else if (currentTime == data.sys.sunset) {
-                sunIcon.src = `./images/sunset1.png`;
-            }
-            else if (currentTime < data.sys.sunset) {
-                sunIcon.src = `./images/sunset.png`;
-            }
-        }
-        changeIcon();
         // Update temperature-based icons
         if (data.main.temp < 5) {
             tempIcon.src = `./images/thermometer0.png`;
@@ -378,18 +363,16 @@ function search() {
 
         // Weather condition handling
         if (mainCondition === "rain") {
-            sunIcon.src = `./images/sunset.png`;
             title.style.backgroundImage = 'linear-gradient(220.55deg, #8A88FB 0%, #D079EE 100%)'
             searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #8A88FB 0%, #D079EE 100%)'
-            const units = document.querySelectorAll(".child-div .unit");
+            weatherIcon.src = `./images/raining-cloud.png`;
             units.forEach(unit => {
                 unit.style.backgroundImage = `linear-gradient(220.55deg, #EAEAEA 0%, #8B8B8B 100%)`;
             });
-            weatherIcon.src = `./images/raining-cloud.png`;
+            sunIcon.src = `./images/sunset.png`;
             if (description.includes("light") || description.includes("moderate")) {
-
-                weatherIcon2.src = `./images/happy-cloud.png`;
                 backgroundImage.style.backgroundImage = `url(./images/night/night3.png)`;
+                weatherIcon2.src = `./images/happy-cloud.png`;
                 backgroundImage.innerHTML = `
                 <div class="back-row-toggle splat-toggle">
                     <div class="rain front-row"></div>
@@ -496,6 +479,7 @@ function search() {
         } else if (mainCondition === "mist" || mainCondition === "haze" || mainCondition === "fog") {
             title.style.backgroundImage = 'linear-gradient(220.55deg, #00E0EE 0%, #AD00FE 100%)'
             searchTitle.style.backgroundImage = 'linear-gradient(220.55deg, #00E0EE 0%, #AD00FE 100%)'
+            sunIcon.src = `./images/sunset.png`
             backgroundImage.innerHTML = ``;
             weatherIcon.src = `./images/haze.png`;
             backgroundImage.style.backgroundImage = currentTime > sunriseTime ? `url(./images/day/clear.jpg)` : `url(./images/night/night6.jpg)`;
